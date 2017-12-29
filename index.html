@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mikrotik Hotspot Monitor</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="refresh" content="" />
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+		<link rel="icon" href="favicon.png" />
+		<link rel="stylesheet" href="css/style.css" media="screen">
+		<script src="/d3.v3.min.js"></script>
+		<script>
+			function Notifikasi() {
+    				alert("Mikhmon versi baru telah hadir dengan performa yg lebih baik.\n\nSelamat Tahun Baru 2018\n\nTerima kasih telah menggunakan Mikhmon.");
+			}
+		</script>
+	</head>
+	<body  onload="Notifikasi()" style="font-size:16px;color: white;">
+
+		<div style="border: 1px solid #ccc; color: white; padding:5px;text-align:center;">
+			<h1>Mikrotik Hotspot Monitor</h1>
+		</div>
+
+		<div style="overflow:auto">
+		<div class="menu">
+			<div class="menuitem"><a style="font-weight:bold;font-size: 16px;" href="https://www.facebook.com/laksamadi?fref=mentions">Facebook</a></div>
+			<div class="menuitem">
+				<h3 style="text-align:center;">Tentang</h3>
+				<p style="text-align:left;">Mikrotik Hotspot Monitor adalah aplikasi berbasis web untuk menggantikan User Manager yang tidak didukung dibeberapa tipe RB Mikrotik.</p>
+			</div>
+			<div class="menuitem">
+				<p style="text-align:center;"><a href="mikhmon-openwrt-lede.html">mikhmon OpenWRT/LEDE</a></p>
+			</div>
+			<div class="menuitem">
+				<h3 style="text-align:center;">Update Terakir</h3>
+				<p style="text-align:left;">29 - 12- 2017</p>
+					<ol style="text-align:left;">
+						<li>Full menggunakan RouterOS API (Tidak memerlukan koneksi SSH lagi).</li>
+						<li>Perbaikan di generate voucher. (custom jumlah voucher 1-99 untuk sekali generate)</li>
+						<li>Perbaikan di cetak voucher.</li>
+						<li>Perbaikan Setup.</li>
+						<li>Perbaikan laman dashboard.</li>
+						<li>Perbaikan laman status (untuk cek masa aktif voucher)
+					</ol>
+			</div>
+		</div>
+
+		<div class="main">
+			<div class="tab">
+				<button class="tablinks" onclick="openLogin(event, 'Beranda')" id="defaultOpen">Beranda</button>
+				<button class="tablinks" onclick="openLogin(event, 'Tutorial')">Tutorial</button>
+				<button class="tablinks" onclick="openLogin(event, 'Video')">Video</button>
+				<button class="tablinks" onclick="openLogin(event, 'Screenshot')">Screenshot</button>
+			</div>
+			<div id="Beranda" class="tabcontent">
+			<h2>Mikrotik Hotspot Monitor</h2>
+			<p>Dengan Aplikasi Mikrotik Hotspot Monitor [mikhmon] usaha hotsppot RT/RW NET akan semakin mudah. Mikhmon dapat membuat user sesuai dengan lisensi pada Router Board  Mikrotik yang digunakan.</p>
+			<h3>Fitur</h3>
+			<ol>
+				<!--<li>Menampilkan User Hotspot yang aktif dan masa aktifnya.</li>
+				<li>Membuat, edit dan hapus User Profile.</li>
+				<li>Menampilkan User Hotspot berdasarkan User Profile.</li>
+				<li>Menghapus User Hotspot berdasarkan Username.</li>
+				<li>Generate 1 Voucher.</li>
+				<li>Generate 21 Voucher.</li>
+				<li>Cetak Voucher. *Sebaiknya menggunakan kertas A4.</li>
+				<li>Custom warna Voucher.</li>
+				<li>Add Remove DNS Static untuk blok website. (<a href="https://raw.githubusercontent.com/laksa19/adlists/master/adlists.txt">Script blok iklan DNS Static Mikrotik</a>)</li>-->
+				<li>Multi platform (Windows, GNU/Linux, Android)</li>
+				<li>Menampilkan User Hotspot yang aktif dan masa aktifnya.</li>
+				<li>Menambah, edit dan hapus User Profile.</li>
+				<li>Menampilkan daftar User Hotspot berdasarkan User Profile.</li>
+				<li>Menghapus User Hotspot berdasarkan Username.</li>
+				<li>Generate Voucher.</li>
+				<ul>
+				<li>Generate Kode Voucher.</li>
+				<li>Generate User Password.</li>
+				<li>Generate Custom User Password.</li>
+				<li>(Generate Kode Voucher/User Password maksimal 99 untuk sekali generate)</li>
+				</ul>
+				<li>Cetak Voucher. (Ukuran kertas A4 atau F4)</li>
+				<li>Custom warna Voucher.</li>
+				<li>Menghapus otomatis user hotspot expired.</li>
+				<li>Tools :</li>
+				<ul>
+				<li>Add Remove DNS Static untuk blok website.</li>
+				<li>Log Mikrotik</li>
+				<li>History</li>
+				</ul>
+			</ol>
+			<p>Fitur andalan mikhmon yaitu dapat menghapus user/voucher yang expired secara otomatis. Sehingga tidak direpotkan lagi dengan user yg sudah expired. Pemilik hotspot tinggal generate voucher --> cetak --> jual = $ :).</p>
+			<img src="img/mikhmon1.png" class="img1">
+			</div>
+			<div id="Tutorial" class="tabcontent">
+			<h3>Pengaturan di Mikrotik</h3>
+			<p>Sebelum menggunakan mikhmon, perlu dilakukan penyesuaian pada Mikrotik sebagai berikut.</p>
+				<ul style="list-style-type:disk">
+					<!--<li>Penyesuaian port SSH<br><textarea readonly rows="2" cols="40">/ip service set ssh port=2219</textarea></li>-->
+					<li>Penyesuaian server waktu, dalam hal ini Indonesia.<br><textarea readonly rows="4" cols="40">/system ntp client set enabled=yes primary-ntp=111.92.175.248 secondary-ntp=130.54.208.201</textarea></li>
+					<li>Penyesuaian waktu<br>WIB<br><textarea readonly rows="3" cols="40">/system clock set time-zone-name=Asia/Jakarta</textarea><br>WITA<br><textarea readonly rows="3" cols="40">/system clock set time-zone-name=Asia/Makassar</textarea><br>WIT<br><textarea readonly rows="3" cols="40">/system clock set time-zone-name=Asia/Jayapura</textarea></li>
+					<li>Opsional script untuk menampilkan log dari hotspot saja.<br><textarea readonly rows="8" cols="40">/system logging
+set 0 disabled=yes
+set 1 disabled=yes
+set 2 disabled=yes
+set 3 disabled=yes
+add topics=hotspot,account,info,debug
+add topics=hotspot,info,debug</textarea></li>
+				</ul>
+			<h3>Panduan Install di Windows</h3>
+				<p style="font-weight:bold;">mikhmon-standalone (untuk Windows 7+)</p>
+				<ul style="list-style-type:disk">
+					<li>Dowload <a href="./download/mikhmon-standalone.zip">mikhmon-standalone</a>.</li>
+					<li>Ekstak file mikhmon-standalone.zip.</li>
+					<li>Buka folder Mikrotik Hotspot Monitor, kemudian jalankan file mikhmon-server.bat.</li>
+					<li>Untuk pengguna anti virus Avast mikhmon-server.exe akan di scan beberapa saat, tunggu saja.</li>
+					<li>Buka di browser (Firefox atau Google Chrome terbaru) http://127.0.0.1:8080</li>
+					<li>Login aplikasi menggunakan username dan password default (admin|1234).</li>
+					<li>Pada laman Setup isikan IP, username dan password Mikrotik, jangan lupa simpan, cukup dengan menekan tombol Enter.</li>
+					<li>Tes koneksi ke Mikrotik, klik pada tombol <-->.</li>
+					<li>Jika muncul informasi tentang Mikrotik, berarti aplikasi siap digunakan.</li>
+					<li>Untuk selanjutnya login menggunakan username dan password Mikrotik.</li>
+				</ul>
+				<p style="font-weight:bold;">Web Server</p>
+				<ul style="list-style-type:disk">
+					<li>Dowload USBWebserver dan <a href="https://github.com/laksa19/mikrotik-hotspot-monitor/archive/master.zip">Mikrotik Hotspot Monitor</a>.</li>
+					<li>Buat folder WebServer, ekstak file USBWebserver.zip ke folder tersebut.</li>
+					<li>Ekstrak file mikrotik-hotspot-monitor-master.zip</li>
+					<li>Cari folder mikhmon dalam folder mikrotik-hotspot-monitor-master yang sudah diekstrak sebelumnya, kemudian di-copy-kan ke folder root WebServer.</li>
+					<li>Jalankan usbwebserver.exe kemudian pilih bahasa, dan tunggu samapi indikator hijau muncul.</li>
+					<li>Buka di browser (Firefox atau Google Chrome terbaru) http://127.0.0.1:8080/mikhmon</li>
+					<li>Login aplikasi menggunakan username dan password default (admin|1234).</li>
+					<li>Pada laman Setup isikan IP, username dan password Mikrotik, jangan lupa simpan, cukup dengan menekan tombol Enter.</li>
+					<li>Tes koneksi ke Mikrotik, klik pada tombol <->.</li>
+					<li>Jika muncul informasi tentang Mikrotik, berarti aplikasi siap digunakan.</li>
+					<li>Untuk selanjutnya login menggunakan username dan password Mikrotik.</li>
+				</ul>
+				<h3>Install di Android</h3>
+				<p style="font-weight:bold;">Web Server</p>
+				<ul style="list-style-type:disk">
+					<li>Dowload Bit Web Server dan <a href="https://github.com/laksa19/mikrotik-hotspot-monitor/archive/master.zip">Mikrotik Hotspot Monitor</a>.</li>
+					<li>Install Bit Web Server di Android.</li>
+					<li>Ekstrak file mikrotik-hotspot-monitor-master.zip</li>
+					<li>Cari folder mikhmon dalam folder mikrotik-hotspot-monitor-master yang sudah diekstrak sebelumnya, kemudian di-copy-kan ke folder www di memory internal Android.</li>
+					<li>Jalankan Bit Web Server, posisikan On pada bagian Web server.</li>
+					<li>Buka di browser (Firefox atau Google Chrome terbaru) http://127.0.0.1:8080/mikhmon</li>
+					<li>Login aplikasi menggunakan username dan password default (admin|1234).</li>
+					<li>Pada laman Setup isikan IP, username dan password Mikrotik, jangan lupa simpan, cukup dengan menekan tombol Enter.</li>
+					<li>Tes koneksi ke Mikrotik, klik pada tombol <->.</li>
+					<li>Jika muncul informasi tentang Mikrotik, berarti aplikasi siap digunakan.</li>
+					<li>Untuk selanjutnya login menggunakan username dan password Mikrotik.</li>
+				</ul>
+			<h3>Install di GNU/Linux (keluarga Debian dan Ubuntu)</h3>
+				<p style="font-weight:bold;">Web Server PHP</p>
+				<ul style="list-style-type:disk">
+					<li>Dowload <a href="https://github.com/laksa19/mikrotik-hotspot-monitor/archive/master.zip">Mikrotik Hotspot Monitor</a>.</li>
+					<li>Ekstrak file mikrotik-hotspot-monitor-master.zip</li>
+					<li>Copy folder mikhmon ke direktori home ~/</li>
+					<li>sudo apt update</li>
+					<li>sudo apt install php</li>
+					<li>sudo chmod +x ~/mikhmon/install/mikhmon-server</li>
+					<li>sudo chmod +x ~/mikhmon/install/mikhmon.desktop</li>
+					<li>sudo cp ~/mikhmon/install/mikhmon-server /bin/</li>
+					<li>cp ~/mikhmon/install/mikhmon.desktop ~/</li>
+					<li>Jalankan mikhmon-server yang ada di folder home ~/</li>
+					<li>Buka di browser (Firefox atau Google Chrome terbaru) http://127.0.0.1:8080/mikhmon</li>
+					<li>Login aplikasi menggunakan username dan password default (admin|1234).</li>
+					<li>Pada laman Setup isikan IP, username dan password Mikrotik, jangan lupa simpan, cukup dengan menekan tombol Enter.</li>
+					<li>Tes koneksi ke Mikrotik, klik pada tombol <->.</li>
+					<li>Jika muncul informasi tentang Mikrotik, berarti aplikasi siap digunakan.</li>
+					<li>Untuk selanjutnya login menggunakan username dan password Mikrotik.</li>
+				</ul>
+			</div>
+			<div id="Video" class="tabcontent">
+			<h3>Video Panduan Penggunaan mikhmon</h3>
+			<p>Windows</p>
+			<iframe width="100%" height="480" src="https://www.youtube.com/embed/k-mbO-7Yuck" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+			<p>Android</p>
+			<iframe width="100%" height="480" src="https://www.youtube.com/embed/EInXupzwJAI" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+			</div>
+			<div id="Screenshot" class="tabcontent">
+			<h3>Berikut tampilan mikhmon di desktop dan di Android</h3>
+				<img src="img/mikhmon1.png" class="img1">
+				<img src="img/mikhmon2.jpg" class="img2"><img src="img/mikhmon3.jpg" class="img2">
+				<img src="img/mikhmon4.jpg" class="img2"><img src="img/mikhmon5.jpg" class="img2">
+				<img src="img/mikhmon6.jpg" class="img2"><img src="img/mikhmon7.jpg" class="img2">
+				<img src="img/mikhmon8.jpg" class="img2"><img src="img/mikhmon9.jpg" class="img2">
+				<img src="img/mikhmon10.jpg" class="img2"><img src="img/mikhmon11.jpg" class="img2">
+				<img src="img/mikhmon12.jpg" class="img2"><img src="img/mikhmon13.jpg" class="img2">
+			</div>
+			<!--<h3>Penjelasan lebih lengkap silahkan kunjungi <a href="https://github.com/laksa19/mikrotik-hotspot-monitor">GitHub Mikrotik Hotspot Monitor</a></h3>-->
+		</div>
+
+		<div class="right">
+			<h3 style="text-align:center;">Download</h3>
+			<p>mikhmon-standalone khusus untuk Windows 7+, langsung pakai tanpa web server.</p>
+			<ul style="list-style-type:circle">
+				<li><a href="./download/mikhmon-standalone.zip">Github</a></li>
+			</ul>
+			<p>Mikrotik Hotspot Monitor</p>
+			<ul style="list-style-type:circle">
+				<li><a href="https://github.com/laksa19/mikrotik-hotspot-monitor/archive/master.zip">GitHub</a></li>
+			</ul>
+			<p>Web Server Windows</p>
+			<ul style="list-style-type:circle">
+				<li><a href="http://www.usbwebserver.net/downloads/USBWebserver%20v8.6.zip">USBWebserver.net</a></li>
+				<li><a href="https://drive.google.com/open?id=1pVqdQHz9Heqah5M7KZvUJrpe5Fm2JMDw">Google Drive</a></li>
+			</ul>
+			<p>Web Server Android</p>
+			<ul style="list-style-type:circle">
+				<li><a href="https://m.allfreeapk.com/bit-web-server-php-mysql-pma,240065/download.html">AllFreeAPK.com</a></li>
+				<li><a href="https://drive.google.com/open?id=1ELyIY7ybnpzX2GqwEbX39M5qade8kMSI">Google Drive</a></li>
+			</ul>
+			<h3>Terima kasih telah menggunakan mikhmon</h3>
+			<table id="users" class="tusers">
+			</table>
+			<br>	
+		</div>
+		</div>
+
+		<div style="border: 1px solid #ccc; color:white; text-align:center;padding:10px;margin-top:7px;">
+			<span class="copyleft">&copy;</span>
+			copyleft Laksamadi Guko
+		</div>
+		<script type="text/javascript" charset="utf-8">
+            d3.text("users.csv", function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+
+                var container = d3.select("table.tusers")
+                    .append("div")
+
+                    .selectAll("tr")
+                        .data(parsedCSV).enter()
+                        .append("tr")
+
+                    .selectAll("td")
+                        .data(function(d) { return d; }).enter()
+                        .append("td")
+                        .text(function(d) { return d; });
+            });
+		</script>
+		<script>
+			function openLogin(evt, TabName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(TabName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+
+			// Get the element with id="defaultOpen" and click on it
+			document.getElementById("defaultOpen").click();
+		</script>
+	</body>
+</html>
